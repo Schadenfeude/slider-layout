@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/zoomPill"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_toggle_corner_all"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="24.0mm" />
+
+    <ImageButton
+        android:id="@+id/zoomMacroButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_button_corner_top"
+        android:padding="10dp"
+        android:src="@drawable/ic_zoom_macro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/zoomPill" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/zoomPickerRv"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:background="@color/chromeGray80"
+        android:clipToPadding="false"
+        android:paddingTop="100dp"
+        android:paddingBottom="100dp"
+        app:layout_constraintEnd_toEndOf="@id/zoomMacroButton"
+        app:layout_constraintStart_toStartOf="@id/zoomMacroButton"
+        app:layout_constraintTop_toBottomOf="@id/zoomMacroButton"
+        tools:itemCount="25"
+        tools:listitem="@layout/item_widget_slider" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_zoom_picker_top_gradient"
+        app:layout_constraintBottom_toTopOf="@id/pickedItem"
+        app:layout_constraintEnd_toEndOf="@id/zoomPickerRv"
+        app:layout_constraintStart_toStartOf="@id/zoomPickerRv"
+        app:layout_constraintTop_toTopOf="@id/zoomPickerRv" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_zoom_picker_bottom_gradient"
+        app:layout_constraintBottom_toBottomOf="@id/zoomPickerRv"
+        app:layout_constraintEnd_toEndOf="@id/zoomPickerRv"
+        app:layout_constraintStart_toStartOf="@id/zoomPickerRv"
+        app:layout_constraintTop_toBottomOf="@id/pickedItem" />
+
+    <TextView
+        android:id="@+id/pickedItem"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/zoomPickerRv"
+        app:layout_constraintEnd_toEndOf="@id/zoomPickerRv"
+        app:layout_constraintStart_toStartOf="@id/zoomPickerRv"
+        app:layout_constraintTop_toBottomOf="@id/zoomPickerRv"
+        tools:text="24.0mm" />
+
+    <ImageButton
+        android:id="@+id/zoomInfiniteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_button_corner_bottom"
+        android:padding="10dp"
+        android:src="@drawable/ic_zoom_infinite"
+        app:layout_constraintEnd_toEndOf="@id/zoomPickerRv"
+        app:layout_constraintStart_toStartOf="@id/zoomPickerRv"
+        app:layout_constraintTop_toBottomOf="@id/zoomPickerRv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

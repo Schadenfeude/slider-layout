@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">slider-widget</string>
+
+    <string name="zoom_value_format">%smm</string>
+</resources>

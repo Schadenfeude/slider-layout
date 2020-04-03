@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/chromeGray100</color>
+    <color name="colorPrimaryDark">@color/chromeGray100</color>
+    <color name="colorAccent">@color/blue</color>
+
+    <color name="blue">#0A92EA</color>
+    <color name="chromeGray80">#CC292C32</color>
+    <color name="chromeGray100">#FF292C32</color>
+    <color name="rippleLight">#40FFFFFF</color>
+</resources>
