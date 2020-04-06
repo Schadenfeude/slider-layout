@@ -5,16 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/sliderGroup"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="zoomMacroButton,zoomPickerRv,pickedItem,zoomInfiniteButton,topGradient,bottomGradient" />
+
     <TextView
         android:id="@+id/zoomPill"
-        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_toggle_corner_all"
+        android:clickable="true"
+        android:focusable="true"
         android:paddingStart="8dp"
         android:paddingTop="4dp"
         android:paddingEnd="8dp"
         android:paddingBottom="4dp"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="24.0mm" />
@@ -45,6 +53,7 @@
         tools:listitem="@layout/item_widget_slider" />
 
     <View
+        android:id="@+id/topGradient"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/bg_zoom_picker_top_gradient"
@@ -54,6 +63,7 @@
         app:layout_constraintTop_toTopOf="@id/zoomPickerRv" />
 
     <View
+        android:id="@+id/bottomGradient"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/bg_zoom_picker_bottom_gradient"

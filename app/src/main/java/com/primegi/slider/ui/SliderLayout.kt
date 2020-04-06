@@ -2,8 +2,10 @@ package com.primegi.slider.ui
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.primegi.slider.R
 import com.primegi.slider.extensions.onClick
@@ -29,9 +31,7 @@ class SliderLayout @JvmOverloads constructor(
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 when (newState) {
-                    RecyclerView.SCROLL_STATE_IDLE -> {
-                        zoomPill.setPillText(getVisibleItemValue())
-                    }
+                    RecyclerView.SCROLL_STATE_IDLE -> zoomPill.setPillText(getVisibleItemValue())
                 }
             }
         }
@@ -57,11 +57,18 @@ class SliderLayout @JvmOverloads constructor(
         zoomPill.setPillText(startingValue)
         pickedItem.setPillText(startingValue)
 
+        zoomPill.onClick { toggleSlider() }
         zoomMacroButton.onClick { zoomPickerRv.smoothScrollToPosition(0) }
         zoomInfiniteButton.onClick { zoomPickerRv.smoothScrollToPosition(sliderAdapter.itemCount - 1) }
     }
 
     fun setValues(values: List<String>): Unit = sliderAdapter.setData(values)
+
+    private fun toggleSlider() {
+        if (sliderGroup.isVisible) sliderGroup.visibility = View.INVISIBLE
+        else sliderGroup.visibility = View.VISIBLE
+        sliderGroup.requestLayout()
+    }
 
     private fun TextView.setPillText(value: Any) {
         text = context.getString(R.string.zoom_value_format, value)
@@ -70,7 +77,7 @@ class SliderLayout @JvmOverloads constructor(
     private fun getVisibleItemValue(): String {
         val visiblePosition = sliderLayout.findFirstVisibleItemPosition()
 
-        return if (visiblePosition == -1) "0"
+        return if (visiblePosition == -1) Float.NaN.toString()
         else sliderAdapter.getItemAt(sliderLayout.findFirstVisibleItemPosition())
     }
 }
