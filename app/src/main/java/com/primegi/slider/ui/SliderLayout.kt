@@ -22,16 +22,15 @@ class SliderLayout @JvmOverloads constructor(
         object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val middleItem = sliderLayout.findFirstVisibleItemPosition()
 
-                if (middleItem == -1) return
-                else pickedItem.setPillText(getVisibleItemValue())
+                pickedItem.onScrolling(sliderLayout.findFirstVisibleItemPosition())
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
+
                 when (newState) {
-                    RecyclerView.SCROLL_STATE_IDLE -> zoomPill.setPillText(getVisibleItemValue())
+                    RecyclerView.SCROLL_STATE_IDLE -> zoomPill.onScrollFinished(sliderLayout.findFirstVisibleItemPosition())
                 }
             }
         }
@@ -54,8 +53,8 @@ class SliderLayout @JvmOverloads constructor(
             addOnScrollListener(onScrollListener)
         }
         val startingValue = getVisibleItemValue()
-        zoomPill.setPillText(startingValue)
-        pickedItem.setPillText(startingValue)
+        zoomPill.setFormattedText(startingValue)
+        pickedItem.setFormattedText(startingValue)
 
         zoomPill.onClick { toggleSlider() }
         zoomMacroButton.onClick { zoomPickerRv.smoothScrollToPosition(0) }
@@ -64,20 +63,35 @@ class SliderLayout @JvmOverloads constructor(
 
     fun setValues(values: List<String>): Unit = sliderAdapter.setData(values)
 
-    private fun toggleSlider() {
-        if (sliderGroup.isVisible) sliderGroup.visibility = View.INVISIBLE
-        else sliderGroup.visibility = View.VISIBLE
-        sliderGroup.requestLayout()
+    //region Private
+    private fun toggleSlider() = with(sliderGroup) {
+        visibility = if (isVisible) View.INVISIBLE else View.VISIBLE
+        requestLayout()
     }
 
-    private fun TextView.setPillText(value: Any) {
+    private fun enableZoomButtons(position: Int) {
+        zoomMacroButton.isEnabled = position != 0
+        zoomInfiniteButton.isEnabled = position != sliderAdapter.itemCount - 1
+    }
+
+    private fun getVisibleItemValue(position: Int = sliderLayout.findFirstVisibleItemPosition()): String =
+        with(position) {
+            if (this == -1) Float.NaN.toString()
+            else sliderAdapter.getItemAt(this)
+        }
+
+    private fun TextView.setFormattedText(value: Any) {
         text = context.getString(R.string.zoom_value_format, value)
     }
 
-    private fun getVisibleItemValue(): String {
-        val visiblePosition = sliderLayout.findFirstVisibleItemPosition()
-
-        return if (visiblePosition == -1) Float.NaN.toString()
-        else sliderAdapter.getItemAt(sliderLayout.findFirstVisibleItemPosition())
+    private fun TextView.onScrolling(position: Int) {
+        if (position == -1) return
+        else setFormattedText(getVisibleItemValue(position))
     }
+
+    private fun TextView.onScrollFinished(position: Int) {
+        onScrolling(position)
+        enableZoomButtons(position)
+    }
+    //endregion Private
 }
